@@ -6,6 +6,8 @@ const App = () => {
   const connectWithMetamask = useMetamask()
   const editionDrop = useEditionDrop(process.env.REACT_APP_EDITION_DROP_ADDRESS);
   const [isMember, setIsMember] = useState(false);
+  const [isClaiming, setIsClaiming] = useState(false)
+  const MEMBERSHIP_TOKEN_ID = 0;
 
   useEffect(() => {
     // Exit if wallet is not connected.
@@ -14,7 +16,6 @@ const App = () => {
     }
 
     const checkBalance = async () => {
-      const MEMBERSHIP_TOKEN_ID = 0;
       try {
         const balance = await editionDrop.balanceOf(address, MEMBERSHIP_TOKEN_ID);
         if (balance.gt(0)) {
@@ -34,7 +35,19 @@ const App = () => {
     checkBalance();
   }, [address, editionDrop])
 
-
+  const mintNft = async () => {
+    try {
+      setIsClaiming(true)
+      await editionDrop.claim(MEMBERSHIP_TOKEN_ID, 1)
+      console.log(`🌊 Successfully Minted! Check it out on OpenSea: https://testnets.opensea.io/assets/${editionDrop.getAddress()}/0`);
+      setIsClaiming(true);
+    } catch (error) {
+      setIsClaiming(false);
+      console.error("Failed to mint NFT", error);
+    } finally {
+      setIsClaiming(false);
+    }
+  }
   
   console.log(`👋 Address: ${address}`)
 
@@ -49,9 +62,24 @@ const App = () => {
     );
   }
 
+  if (isMember) {
+    return (
+      <div className="member-page">
+        <h1>CodewarsDAO Member Page</h1>
+        <p>Congratulations on being a member!</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="landing">
-      <h1>👀 wallet connected, now what!</h1>
+    <div className="mint-nft">
+      <h1>Claim your free CodewarsDAO membership NFT!</h1>
+      <button
+        disabled={isClaiming}
+        onClick={mintNft}
+      >
+        {isClaiming ? "Minting..." : "Mint your NFT"}
+      </button>
     </div>
   )
 };
