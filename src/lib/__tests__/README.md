@@ -1,0 +1,1 @@
+> Tests need to be here since CRA doesn't test any file outside `src`
