@@ -18,6 +18,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     .then((data) => data.records)
     // Flat fields
     .then((users) => users.map((user) => user.fields))
+    // Only members with wallets
+    .then((users) =>
+      users.filter((user) => Object.hasOwn(user, 'walletAddress'))
+    )
     // With partial honor from Codewars
     .then((users) => {
       const withPartialHonor = (user: any) =>
