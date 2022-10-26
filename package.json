@@ -6,21 +6,34 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest --watch",
+    "deploy:coins": "npx ts-node -O '{\"module\": \"commonjs\"}' -r tsconfig-paths/register deploy/hack-coins.ts",
+    "deploy:print-coins": "npx ts-node -O '{\"module\": \"commonjs\"}' -r tsconfig-paths/register deploy/print-hack-coins.ts"
   },
   "dependencies": {
     "@thirdweb-dev/react": "^3",
     "@thirdweb-dev/sdk": "^3",
     "ethers": "^5.6.8",
     "next": "^12.1.6",
+    "node-fetch": "^3.2.10",
     "react": "^18.1.0",
     "react-dom": "^18.1.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
     "@types/node": "^17.0.35",
     "@types/react": "^17.0.45",
+    "dotenv": "^16.0.3",
     "eslint": "^8.16.0",
     "eslint-config-next": "^12.1.6",
+    "eslint-config-prettier": "^8.5.0",
+    "jest": "^29.2.2",
+    "jest-environment-jsdom": "^29.2.2",
+    "prettier": "^2.7.1",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.0",
     "typescript": "^4.7.2"
   }
 }
